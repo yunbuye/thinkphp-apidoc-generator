@@ -18,19 +18,19 @@
     "php": ">=5.6.0",
     "fzaninotto/faker": "~1.0",
     "topthink/framework": "5.1.*",
-    "mpociot/documentarian": "^0.2.0",
     "mpociot/reflection-docblock": "^1.0",
     "ramsey/uuid": "^3.0",
-    "terranc/think-blade": "^1.1"
+    "terranc/think-blade": "^1.1",
+    "illuminate/support": ">=5.5.0",
+    "mnapoli/front-yaml": "1.6.*"
   },
   "require-dev": {
-    "orchestra/testbench": "~3.0",
     "phpunit/phpunit": "~4.0 || ~5.0",
     "mockery/mockery": "^0.9.5"
   },
   "autoload": {
     "psr-4": {
-      "Xwpd\\ThinkApiDoc\\": "src/Xwpd/ThinkApiDoc"
+      "Xwpd\\ThinkApiDoc\\": "src/"
     }
   },
   "autoload-dev": {

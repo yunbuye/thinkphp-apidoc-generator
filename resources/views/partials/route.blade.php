@@ -2,11 +2,6 @@
 @if($parsedRoute['title'] != '')## {{ $parsedRoute['title']}}
 @else## {{$parsedRoute['uri']}}
 @endif
-@if($parsedRoute['description'])
-
-{!! $parsedRoute['description'] !!}
-@endif
-
 > Example request:
 
 ```bash
@@ -48,6 +43,12 @@ $.ajax(settings).done(function (response) {
 @else
 {!! json_encode(json_decode($parsedRoute['response']), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
 @endif
+```
+@endif
+
+@if($parsedRoute['description'])
+```desc
+{!! $parsedRoute['description'] !!}
 ```
 @endif
 
