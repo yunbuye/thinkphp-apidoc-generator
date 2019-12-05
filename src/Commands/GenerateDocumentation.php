@@ -15,7 +15,7 @@ use think\console\Output;
 use think\View;
 use Mpociot\Reflection\DocBlock;
 use Illuminate\Support\Collection;
-use Mpociot\Documentarian\Documentarian;
+use Xwpd\ThinkApiDoc\Documentarian;
 use Xwpd\ThinkApiDoc\Postman\CollectionWriter;
 use Xwpd\ThinkApiDoc\Generators\ThinkphpGenerator;
 use Xwpd\ThinkApiDoc\Generators\AbstractGenerator;
@@ -55,6 +55,7 @@ class GenerateDocumentation extends Command
         $this->setName('api-doc:generate')
             ->addOption('routePrefix', null, Option::VALUE_REQUIRED, '路由前缀')
             ->addOption('routes', null, Option::VALUE_REQUIRED, '路由名', '*')
+            ->addOption('force', null, Option::VALUE_REQUIRED, '强制更新', true)
             ->addOption('actAsUserId', null, Option::VALUE_REQUIRED, '模拟登陆的id')
             ->addOption('noResponseCalls', null, Option::VALUE_REQUIRED, '无返回', true)
             ->addOption('bindings', null, Option::VALUE_REQUIRED, '无返回')
@@ -66,7 +67,7 @@ class GenerateDocumentation extends Command
     }
 
     private function option($name){
-        if($name=='header'){
+        if ($name == 'header') {
             return [];
         }
         return $this->input->getOption($name);
@@ -89,7 +90,8 @@ class GenerateDocumentation extends Command
      * 设置模板引擎
      */
     protected function setViewEn(){
-        $view_path = dirname(dirname(dirname(dirname(__FILE__)))).DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views/';
+        $resources_dir = __DIR__.'/../../resources'.DIRECTORY_SEPARATOR;
+        $view_path = $resources_dir.'views/';
         Config::set('template.type', 'Blade');
         Config::set('template.auto_rule', '1');
         Config::set('template.view_path', $view_path);
@@ -105,12 +107,50 @@ class GenerateDocumentation extends Command
 
     }
 
-    protected function view($template = '', $vars = []){
+    static public function view($template = '', $vars = []){
         $view = App::make('view', [], true);
         /**
          * @var View $view
          */
         return $view->assign($vars)->fetch($template, $vars);
+    }
+
+    public static function arr_wrap($value){
+        if (is_null($value)) {
+            return [];
+        }
+
+        return is_array($value)? $value : [$value];
+    }
+
+    static public function str_is($pattern, $value){
+        $patterns = static::arr_wrap($pattern);
+
+        if (empty($patterns)) {
+            return false;
+        }
+
+        foreach ($patterns as $pattern) {
+            // If the given value is an exact match we can of course return true right
+            // from the beginning. Otherwise, we will translate asterisks and do an
+            // actual pattern match against the two strings to see if they match.
+            if ($pattern == $value) {
+                return true;
+            }
+
+            $pattern = preg_quote($pattern, '#');
+
+            // Asterisks are translated into zero-or-more regular expression wildcards
+            // to make it convenient to check if the strings starts with the given
+            // pattern such as "library/*", making any string check convenient.
+            $pattern = str_replace('\*', '.*', $pattern);
+
+            if (preg_match('#^'.$pattern.'\z#u', $value) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function execute(Input $input, Output $output){
@@ -162,26 +202,26 @@ class GenerateDocumentation extends Command
      * @return void
      */
     private function writeMarkdown($parsedRoutes){
-        $outputPath = ROOT.$this->option('output');
+        $outputPath = Config::get('root_path').$this->option('output');
         $targetFile = $outputPath.DIRECTORY_SEPARATOR.'source'.DIRECTORY_SEPARATOR.'index.md';
         $compareFile = $outputPath.DIRECTORY_SEPARATOR.'source'.DIRECTORY_SEPARATOR.'.compare.md';
         $prependFile = $outputPath.DIRECTORY_SEPARATOR.'source'.DIRECTORY_SEPARATOR.'prepend.md';
         $appendFile = $outputPath.DIRECTORY_SEPARATOR.'source'.DIRECTORY_SEPARATOR.'append.md';
         $viewPath = '';//dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'views/';
-        $infoText = $this->view('partials'.DIRECTORY_SEPARATOR.'info', [
+        $infoText = static::view('partials'.DIRECTORY_SEPARATOR.'info', [
             'outputPath' => ltrim($outputPath, 'public/'),
             'showPostmanCollectionButton' => !$this->option('noPostmanCollection')
         ]);
 
         $parsedRouteOutput = $parsedRoutes->map(function ($routeGroup) use ($viewPath){
             return $routeGroup->map(function ($route) use ($viewPath){
-                $route['output'] = $this->view('partials'.DIRECTORY_SEPARATOR.'route', ['parsedRoute' => $route]);;
+                $route['output'] = static::view('partials'.DIRECTORY_SEPARATOR.'route', ['parsedRoute' => $route]);;
 
                 return $route;
             });
         });
 
-        $frontmatter = $this->view('partials'.DIRECTORY_SEPARATOR.'frontmatter');
+        $frontmatter = static::view('partials'.DIRECTORY_SEPARATOR.'frontmatter');
         /*
          * In case the target file already exists, we should check if the documentation was modified
          * and skip the modified parts of the routes.
@@ -220,7 +260,7 @@ class GenerateDocumentation extends Command
 
         $documentarian = new Documentarian();
 
-        $markdown = $this->view(DIRECTORY_SEPARATOR.'documentarian',
+        $markdown = static::view(DIRECTORY_SEPARATOR.'documentarian',
             [
                 'writeCompareFile' => false,
                 'frontmatter' => $frontmatter,
@@ -241,7 +281,7 @@ class GenerateDocumentation extends Command
         file_put_contents($targetFile, $markdown);
 
         // Write comparable markdown file
-        $compareMarkdown = $this->view(DIRECTORY_SEPARATOR.'documentarian',
+        $compareMarkdown = static::view(DIRECTORY_SEPARATOR.'documentarian',
             [
                 'writeCompareFile' => true,
                 'frontmatter' => $frontmatter,
@@ -349,8 +389,8 @@ class GenerateDocumentation extends Command
         foreach ($routeList as $domain => $items) {
             foreach ($items as $item) {
                 //$item['route'] = $item['route'] instanceof \Closure? '<Closure>' : $item['route'];
-                $item['rule']=str_replace('<',":",$item['rule']);
-                $item['rule']=str_replace('>',"",$item['rule']);
+                $item['rule'] = str_replace('<', ":", $item['rule']);
+                $item['rule'] = str_replace('>', "", $item['rule']);
                 $rows[] = $item;
             }
         }
@@ -372,8 +412,8 @@ class GenerateDocumentation extends Command
         foreach ($routes as $route) {
             /** @var Route $route */
             if (in_array($generator->getName($route), $allowedRoutes)
-                || (str_is($routeDomain, $generator->getDomain($route))
-                    && str_is($routePrefix, $generator->getUri($route)))
+                || (static::str_is($routeDomain, $generator->getDomain($route))
+                    && static::str_is($routePrefix, $generator->getUri($route)))
             ) {
                 if ($this->isValidRoute($generator, $route) && $this->isRouteVisibleForDocumentation($generator->getAction($route)['uses'])) {
                     $parsedRoutes[] = $generator->processRoute($route, $bindings, $this->option('header'), $withResponse && in_array('GET', $generator->getMethods($route)));
