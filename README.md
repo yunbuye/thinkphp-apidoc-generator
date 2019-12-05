@@ -65,7 +65,7 @@
 1. 请求参数自动生成   
    （未做）在控制器操作里，依赖注入请求验证，会自动生成参数文档
  
-## Thinks
+## Thanks
    https://github.com/mpociot/laravel-apidoc-generator
     
 ## License
