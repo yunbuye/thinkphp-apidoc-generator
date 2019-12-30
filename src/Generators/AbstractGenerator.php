@@ -4,16 +4,13 @@ namespace Xwpd\ThinkApiDoc\Generators;
 
 use Faker\Factory;
 use ReflectionClass;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use League\Fractal\Manager;
-use Illuminate\Routing\Route;
+use think\facade\Validate;
+use Xwpd\ThinkApiDoc\Arr;
+use Xwpd\ThinkApiDoc\Str;
 use Mpociot\Reflection\DocBlock;
-use League\Fractal\Resource\Item;
 use Mpociot\Reflection\DocBlock\Tag;
-use League\Fractal\Resource\Collection;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Http\FormRequest;
+use think\facade\Route;
+use Xwpd\ThinkApiDoc\Collection;
 use Xwpd\ThinkApiDoc\Parsers\RuleDescriptionParser as Description;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
@@ -66,11 +63,12 @@ abstract class AbstractGenerator
     }
 
     /**
-     * @param  \Illuminate\Routing\Route $route
+     * @param \Illuminate\Routing\Route $route
      * @param array $bindings
      * @param bool $withResponse
      *
      * @return array
+     * @throws \ReflectionException
      */
     public function processRoute($route, $bindings = [], $headers = [], $withResponse = true)
     {
@@ -150,7 +148,7 @@ abstract class AbstractGenerator
         if (empty($responseTags)) {
             return;
         }
-        $responseTag = \array_first($responseTags);
+        $responseTag = Arr::first($responseTags);
 
         return \response(json_encode($responseTag->getContent()), 200, ['Content-Type' => 'application/json']);
     }
@@ -161,6 +159,7 @@ abstract class AbstractGenerator
      * @param array $bindings
      *
      * @return mixed
+     * @throws \ReflectionException
      */
     protected function getParameters($routeData, $routeAction, $bindings)
     {
@@ -194,11 +193,11 @@ abstract class AbstractGenerator
     protected function simplifyRules($rules)
     {
         // this will split all string rules into arrays of strings
-        $newRules = Validator::make([], $rules)->getRules();
+        $newRules = Validate::make([], $rules)->getRules();
 
         // Laravel will ignore the nested array rules unless the key referenced exists and is an array
         // So we'll create an empty array for each array attribute
-        $values = collect($newRules)
+        $values = Collection::make($newRules)
             ->filter(function ($values) {
                 return in_array('array', $values);
             })->map(function ($val, $key) {
@@ -207,7 +206,7 @@ abstract class AbstractGenerator
 
         // Now this will return the complete ruleset.
         // Nested array parameters will be present, with '*' replaced by '0'
-        return Validator::make($values, $rules)->getRules();
+        return Validate::make($values, $rules)->getRules();
     }
 
     /**
@@ -224,7 +223,7 @@ abstract class AbstractGenerator
         $methods = $this->getMethods($route);
 
         // Split headers into key - value pairs
-        $headers = collect($headers)->map(function ($value) {
+        $headers = Collection::make($headers)->map(function ($value) {
             $split = explode(':', $value); // explode to get key + values
             $key = array_shift($split); // extract the key and keep the values in the array
             $value = implode(':', $split); // implode values into string again
@@ -256,9 +255,10 @@ abstract class AbstractGenerator
     }
 
     /**
-     * @param  \Illuminate\Routing\Route  $route
+     * @param Route $route
      *
      * @return array
+     * @throws \ReflectionException
      */
     protected function getRouteDescription($route)
     {
@@ -277,9 +277,10 @@ abstract class AbstractGenerator
     }
 
     /**
-     * @param  string  $route
+     * @param string $route
      *
      * @return string
+     * @throws \ReflectionException
      */
     protected function getRouteGroup($route)
     {
@@ -299,11 +300,12 @@ abstract class AbstractGenerator
     }
 
     /**
-     * @param  array $routeMethods
-     * @param  string $routeAction
-     * @param  array $bindings
+     * @param array $routeMethods
+     * @param string $routeAction
+     * @param array $bindings
      *
      * @return array
+     * @throws \ReflectionException
      */
     protected function getRouteValidationRules(array $routeMethods, $routeAction, $bindings)
     {
@@ -733,14 +735,14 @@ abstract class AbstractGenerator
                 return false;
             }
 
-            $modelTag = array_first(array_filter($tags, function ($tag) {
+            $modelTag = Arr::first(array_filter($tags, function ($tag) {
                 if (! ($tag instanceof Tag)) {
                     return false;
                 }
 
                 return \in_array(\strtolower($tag->getName()), ['transformermodel']);
             }));
-            $tag = \array_first($transFormerTags);
+            $tag = Arr::first($transFormerTags);
             $transformer = $tag->getContent();
             if (! \class_exists($transformer)) {
                 // if we can't find the transformer we can't generate a response
@@ -750,7 +752,7 @@ abstract class AbstractGenerator
 
             $reflection = new ReflectionClass($transformer);
             $method = $reflection->getMethod('transform');
-            $parameter = \array_first($method->getParameters());
+            $parameter = Arr::first($method->getParameters());
             $type = null;
             if ($modelTag) {
                 $type = $modelTag->getContent();
