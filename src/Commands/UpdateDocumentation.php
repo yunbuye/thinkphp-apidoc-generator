@@ -2,8 +2,8 @@
 
 namespace Xwpd\ThinkApiDoc\Commands;
 
-use Illuminate\Console\Command;
-use Xwpd\Documentarian\Documentarian;
+use think\console\Command;
+use Xwpd\ThinkApiDoc\Documentarian;
 
 class UpdateDocumentation extends Command
 {

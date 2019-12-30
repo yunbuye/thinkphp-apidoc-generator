@@ -58,17 +58,17 @@ class ThinkphpGenerator extends AbstractGenerator
         $url_controller_layer = Config::get('url_controller_layer');
         if (mb_strpos($route, '?') === 0) {
             //'?额外参数1=值1&额外参数2=值2...'
-            $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.$default_controller.'@'.$default_action;
+            $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.ucfirst($default_controller).'@'.$default_action;
         } else {
             //[模块/控制器/操作]
             //'index/group.blog/read'
             $arr = explode('/', $route);
             if (count($arr) === 1) {
-                $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.$default_controller.'@'.$arr[0];
+                $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.ucfirst($default_controller).'@'.$arr[0];
             } elseif (count($arr) === 2) {
-                $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.str_replace('.', '\\', $arr[0]).'@'.$arr[1];
+                $str = $root_namespace.$default_module.'\\'.$url_controller_layer.'\\'.ucfirst(str_replace('.', '\\', $arr[0])).'@'.$arr[1];
             } else {
-                $str = $root_namespace.$arr[0].'\\'.$url_controller_layer.'\\'.str_replace('.', '\\', $arr[1]).'@'.$arr[2];
+                $str = $root_namespace.$arr[0].'\\'.$url_controller_layer.'\\'.ucfirst(str_replace('.', '\\', $arr[1])).'@'.$arr[2];
             }
         }
         return $str;
