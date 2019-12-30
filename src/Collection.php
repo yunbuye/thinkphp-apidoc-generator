@@ -7,6 +7,12 @@ namespace Xwpd\ThinkApiDoc;
 class Collection extends \think\Collection
 {
 
+    public function map(callable $callback)
+    {
+        $keys = array_keys($this->items);
+        $items = array_map($callback, $this->items, $keys);
+        return new static(array_combine($keys, $items));
+    }
     public function collapse()
     {
         return new static(Arr::collapse($this->items));
@@ -78,5 +84,8 @@ class Collection extends \think\Collection
             });
         }
         return $result;
+    }
+    public function values(){
+        return new static(array_values($this->items));
     }
 }

@@ -3,7 +3,7 @@
 namespace Xwpd\ThinkApiDoc\Postman;
 
 use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Collection;
+use Xwpd\ThinkApiDoc\Collection;
 
 class CollectionWriter
 {
@@ -44,7 +44,7 @@ class CollectionWriter
                                 'method' => $route['methods'][0],
                                 'body' => [
                                     'mode' => 'formdata',
-                                    'formdata' => collect($route['parameters'])->map(function ($parameter, $key) {
+                                    'formdata' => Collection::make($route['parameters'])->map(function ($parameter, $key) {
                                         return [
                                             'key' => $key,
                                             'value' => isset($parameter['value']) ? $parameter['value'] : '',
