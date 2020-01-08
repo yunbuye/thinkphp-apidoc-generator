@@ -1,10 +1,10 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc;
+namespace Yunbuye\ThinkApiDoc;
 
 use think\Service;
-use Xwpd\ThinkApiDoc\Commands\UpdateDocumentation;
-use Xwpd\ThinkApiDoc\Commands\GenerateDocumentation;
+use Yunbuye\ThinkApiDoc\Commands\UpdateDocumentation;
+use Yunbuye\ThinkApiDoc\Commands\GenerateDocumentation;
 
 class ThinkApiDocGeneratorServiceProvider extends Service
 {

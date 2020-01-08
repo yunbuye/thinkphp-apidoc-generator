@@ -1,9 +1,9 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc;
+namespace Yunbuye\ThinkApiDoc;
 
 use Mni\FrontYAML\Parser;
-use Xwpd\ThinkApiDoc\Commands\GenerateDocumentation;
+use Yunbuye\ThinkApiDoc\Commands\GenerateDocumentation;
 
 /**
  * Class Documentarian

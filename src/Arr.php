@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Xwpd\ThinkApiDoc;
+namespace Yunbuye\ThinkApiDoc;
 
 
 class Arr extends \think\helper\Arr

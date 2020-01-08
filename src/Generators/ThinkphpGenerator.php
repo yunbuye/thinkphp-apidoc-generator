@@ -1,13 +1,11 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Generators;
+namespace Yunbuye\ThinkApiDoc\Generators;
 
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
-use think\Exception;
 use think\facade\Config;
-use think\Loader;
 
 class ThinkphpGenerator extends AbstractGenerator
 {

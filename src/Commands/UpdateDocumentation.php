@@ -1,9 +1,9 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Commands;
+namespace Yunbuye\ThinkApiDoc\Commands;
 
 use think\console\Command;
-use Xwpd\ThinkApiDoc\Documentarian;
+use Yunbuye\ThinkApiDoc\Documentarian;
 
 class UpdateDocumentation extends Command
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Xwpd\ThinkApiDoc;
+namespace Yunbuye\ThinkApiDoc;
 
 
 class Collection extends \think\Collection
