@@ -1,5 +1,5 @@
 {
-  "name": "xwpd/thinkphp-apidoc-generator",
+  "name": "yunbuye/thinkphp-apidoc-generator",
   "license": "MIT",
   "description": "Generate beautiful API documentation from your ThinkPHP application",
   "keywords": [
@@ -7,7 +7,7 @@
     "Documentation",
     "ThinkPHP"
   ],
-  "homepage": "http://github.com/xwpd/thinkphp-apidoc-generator",
+  "homepage": "http://github.com/yunbuye/thinkphp-apidoc-generator",
   "authors": [
     {
       "name": "xwpd",
@@ -28,12 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Xwpd\\ThinkApiDoc\\": "src/"
+      "Yunbuye\\ThinkApiDoc\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Xwpd\\ThinkApiDoc\\Tests\\": "tests/"
+      "Yunbuye\\ThinkApiDoc\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "stable",
@@ -43,7 +43,7 @@
     },
     "think": {
       "services": [
-        "Xwpd\\ThinkApiDoc\\ApiDocGeneratorServiceProvider"
+        "Yunbuye\\ThinkApiDoc\\ApiDocGeneratorServiceProvider"
       ]
     }
   },

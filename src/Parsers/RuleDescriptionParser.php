@@ -1,6 +1,6 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Parsers;
+namespace Yunbuye\ThinkApiDoc\Parsers;
 
 class RuleDescriptionParser
 {

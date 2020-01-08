@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Xwpd\ThinkApiDoc;
+namespace Yunbuye\ThinkApiDoc;
 
 
 use Doctrine\Common\Inflector\Inflector;

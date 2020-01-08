@@ -1,6 +1,6 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Commands;
+namespace Yunbuye\ThinkApiDoc\Commands;
 
 use ReflectionClass;
 use think\Container;
@@ -9,16 +9,15 @@ use think\facade\Config;
 use think\Route;
 use think\console\Command;
 use think\console\Input;
-use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use think\View;
 use Mpociot\Reflection\DocBlock;
-use Xwpd\ThinkApiDoc\Collection;
-use Xwpd\ThinkApiDoc\Documentarian;
-use Xwpd\ThinkApiDoc\Postman\CollectionWriter;
-use Xwpd\ThinkApiDoc\Generators\ThinkphpGenerator;
-use Xwpd\ThinkApiDoc\Generators\AbstractGenerator;
+use Yunbuye\ThinkApiDoc\Collection;
+use Yunbuye\ThinkApiDoc\Documentarian;
+use Yunbuye\ThinkApiDoc\Postman\CollectionWriter;
+use Yunbuye\ThinkApiDoc\Generators\ThinkphpGenerator;
+use Yunbuye\ThinkApiDoc\Generators\AbstractGenerator;
 use think\facade\Route as RouteFacade;
 
 class GenerateDocumentation extends Command

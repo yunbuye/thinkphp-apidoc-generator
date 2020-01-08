@@ -1,17 +1,17 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Generators;
+namespace Yunbuye\ThinkApiDoc\Generators;
 
 use Faker\Factory;
 use ReflectionClass;
 use think\facade\Validate;
-use Xwpd\ThinkApiDoc\Arr;
-use Xwpd\ThinkApiDoc\Str;
+use Yunbuye\ThinkApiDoc\Arr;
+use Yunbuye\ThinkApiDoc\Str;
 use Mpociot\Reflection\DocBlock;
 use Mpociot\Reflection\DocBlock\Tag;
 use think\facade\Route;
-use Xwpd\ThinkApiDoc\Collection;
-use Xwpd\ThinkApiDoc\Parsers\RuleDescriptionParser as Description;
+use Yunbuye\ThinkApiDoc\Collection;
+use Yunbuye\ThinkApiDoc\Parsers\RuleDescriptionParser as Description;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 abstract class AbstractGenerator
