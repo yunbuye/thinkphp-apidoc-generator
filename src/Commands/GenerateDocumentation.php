@@ -201,7 +201,7 @@ class GenerateDocumentation extends Command
         }
 
         $parsedRoutes =Collection::make($parsedRoutes)->groupBy('resource')->sort(function ($a, $b) {
-            return strcmp($a->first()['resource'], $b->first()['resource']);
+            return strcmp($a[0]['resource'], $b[0]['resource']);
         });
 
         $this->writeMarkdown($parsedRoutes);
