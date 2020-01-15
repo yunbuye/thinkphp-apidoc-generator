@@ -1,9 +1,9 @@
 <?php
 
-namespace Xwpd\ThinkApiDoc\Postman;
+namespace Yunbuye\ThinkApiDoc\Postman;
 
 use Ramsey\Uuid\Uuid;
-use Xwpd\ThinkApiDoc\Collection;
+use Yunbuye\ThinkApiDoc\Collection;
 
 class CollectionWriter
 {

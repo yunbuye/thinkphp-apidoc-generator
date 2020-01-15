@@ -5,14 +5,14 @@
 ## 安装
 1. 安装依赖
     ```bash
-    composer require xwpd/thinkphp-apidoc-generator --dev
+    composer require yunbuye/thinkphp-apidoc-generator --dev
     ```
 1. 添加命令     
     打开配置文件 application/command.php 添加如下内容
     ```php
     return [
         //...其他命令
-        "api-doc:generate"=>Xwpd\ThinkApiDoc\Commands\GenerateDocumentation::class
+        "api-doc:generate"=>Yunbuye\ThinkApiDoc\Commands\GenerateDocumentation::class
     ];
     ```
    
