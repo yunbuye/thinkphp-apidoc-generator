@@ -47,10 +47,10 @@ class Documentarian
         copy($resources_dir.'stubs/config.php', $folder.'/config.php');
         copy($resources_dir.'stubs/css/style.css', $folder.'/../css/style.css');
 
-        // copy resources
-        $this->rcopy($resources_dir.'images/', $folder.'/assets/images');
-        $this->rcopy($resources_dir.'js/', $folder.'/assets/js');
-        $this->rcopy($resources_dir.'stylus/', $folder.'/assets/stylus');
+        // Copy assets
+        $this->rcopy($resources_dir.'images/', $folder.'/images');
+        $this->rcopy($resources_dir.'stylus/fonts/', $folder.'/css/fonts');
+        $this->rcopy($resources_dir.'js/', $folder.'/js');
     }
 
     /**
@@ -90,9 +90,6 @@ class Documentarian
 
         file_put_contents($folder.'/index.html', $output);
 
-        // Copy assets
-        $this->rcopy($source_dir.'/assets/images/', $folder.'/images');
-        $this->rcopy($source_dir.'/assets/stylus/fonts/', $folder.'/css/fonts');
     }
 
     protected function rcopy($src, $dest){
