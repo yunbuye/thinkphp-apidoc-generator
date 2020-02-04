@@ -33,6 +33,7 @@ class Documentarian
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
             mkdir($folder.'/../css');
+            mkdir($folder.'/../css/fonts');
             mkdir($folder.'/../js');
             mkdir($folder.'/includes');
             mkdir($folder.'/assets');
@@ -48,9 +49,9 @@ class Documentarian
         copy($resources_dir.'stubs/css/style.css', $folder.'/../css/style.css');
 
         // Copy assets
-        $this->rcopy($resources_dir.'images/', $folder.'/images');
-        $this->rcopy($resources_dir.'stylus/fonts/', $folder.'/css/fonts');
-        $this->rcopy($resources_dir.'js/', $folder.'/js');
+        $this->rcopy($resources_dir.'images/', $folder.'/../images');
+        $this->rcopy($resources_dir.'stylus/fonts/', $folder.'/../css/fonts');
+        $this->rcopy($resources_dir.'js/', $folder.'/../js');
     }
 
     /**
