@@ -45,7 +45,6 @@ class Documentarian
         copy($resources_dir.'stubs/package.json', $folder.'/package.json');
         copy($resources_dir.'stubs/gulpfile.js', $folder.'/gulpfile.js');
         copy($resources_dir.'stubs/config.php', $folder.'/config.php');
-        copy($resources_dir.'stubs/js/all.js', $folder.'/../js/all.js');
         copy($resources_dir.'stubs/css/style.css', $folder.'/../css/style.css');
 
         // copy resources
