@@ -151,6 +151,7 @@
   }
 
   function slugify(text){
+      text=chineseToPinYin(text.toString());
     return text.toString().toLowerCase()
         .replace(/\s+/g, '-')           // Replace spaces with -
         .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
@@ -250,10 +251,13 @@
     $('h1, h2').each(function() {
       var title = $(this);
       var body = title.nextUntil('h1, h2');
+      var id1=title.prop('id');
+      var body1=body.text();
+      var title1=title.text();
       index.add({
-        id: title.prop('id'),
-        title: title.text(),
-        body: body.text()
+        id:id1,
+        title: title1,
+        body: body1
       });
     });
   }

@@ -7,20 +7,7 @@
     <title>{{$page['title']}}</title>
 
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/all.js"></script>
 
-    <script>
-    @if(isset($page['language_tabs']))
-
-        $(function() {
-            setupLanguages({!! json_encode($page['language_tabs']) !!});
-        });
-
-    @endif
-        $(function() {
-            $('.language-desc').parent().addClass("pre-desc");
-        });
-    </script>
     <style>
         .content pre.pre-desc{
             margin-right: 50%;
@@ -73,6 +60,29 @@
       <div class="content">
           {!! $content !!}
       </div>
+
+        <script src="js/lib/jquery.min.js"></script>
+        <script src="js/lib/jquery_ui.js"></script>
+        <script src="js/lib/jquery.highlight.js"></script>
+        <script src="js/lib/jquery.tocify.js"></script>
+        <script src="js/lib/imagesloaded.min.js"></script>
+        <script src="js/lib/highlight.min.js"></script>
+        <script src="js/lib/energize.js"></script>
+        <script src="js/lib/lunr.min.js?v=1.0.2"></script>
+        <script src="js/lib/pinying.js?v=1.0.0"></script>
+        <script src="js/script.js?v=1.0.2"></script>
+        <script>
+            @if(isset($page['language_tabs']))
+
+            $(function() {
+                setupLanguages({!! json_encode($page['language_tabs']) !!});
+            });
+
+            @endif
+            $(function() {
+                $('.language-desc').parent().addClass("pre-desc");
+            });
+        </script>
       <div class="dark-box">
           @if(isset($page['language_tabs']))
               <div class="lang-selector">
