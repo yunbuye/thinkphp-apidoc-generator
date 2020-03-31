@@ -1,6 +1,8 @@
 # ThinkPHP api文档自动生成
 ## 支持  
    thinkphp5.1.*
+## 自动生成的效果
+   ![效果](resources/images/example.png) 
    
 ## 安装
 1. 安装依赖
@@ -17,6 +19,9 @@
     ```
    
 ## 使用 
+1. 复制语言文件   
+    将 vendor/yunbuye/thinkphp-apidoc-generator/resources/lang/zh-cn.php 文件复制到 application/lang/zh-cn.php 。   
+    不复制的话，将会没有对应的描述。  
 1. 运行命令 生成文档
    ```bash
     php think api-doc:generate --routePrefix=*
@@ -66,7 +71,24 @@
      */
    ```
 1. 请求参数自动生成   
-   （未做）在控制器操作里，依赖注入请求验证，会自动生成参数文档
+   在控制器操作里，依赖注入请求验证，会自动生成参数文档。  
+   但是表单验证类，必须继承 Yunbuye\ThinkApiDoc\FormValidate  而且必须在控制器方法内注入。   
+   例：（其中 app\common\validate\Save  继承了 Yunbuye\ThinkApiDoc\FormValidate）
+   ```
+        /**
+       * 创建公司
+       *
+       * 创建后，需要设置接收通知的职员
+       */
+     public function save(app\common\validate\Save $validate)
+        {
+     
+       }
+   ```
+   这样生成文档时，即可自动根据表单验证生成参数说明
+ 
+1. 自定义错误信息（描述）  
+   生成文档时，如果对应规则有自定义错误信息，将会被使用。
  
 ## Thanks
    https://github.com/mpociot/laravel-apidoc-generator

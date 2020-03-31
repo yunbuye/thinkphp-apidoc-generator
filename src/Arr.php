@@ -87,4 +87,9 @@ class Arr extends \think\helper\Arr
     {
         return $value instanceof \Closure ? $value() : $value;
     }
+
+    static function get($array, $key, $default = null)
+    {
+        return isset($array[$key]) ? $array[$key] : $default;
+    }
 }
