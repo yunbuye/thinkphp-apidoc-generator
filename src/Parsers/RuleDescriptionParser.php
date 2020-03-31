@@ -2,28 +2,30 @@
 
 namespace Yunbuye\ThinkApiDoc\Parsers;
 
+use think\facade\Lang;
+
 class RuleDescriptionParser
 {
     private $rule;
 
     private $parameters = [];
 
-    const DEFAULT_LOCALE = 'en';
+    const DEFAULT_LOCALE = 'zh-cn';
 
     /**
      * @param null $rule
      */
     public function __construct($rule = null)
     {
-        $this->rule = "apidoc::rules.{$rule}";
+        $this->rule = "{$rule}";
     }
 
     /**
-     * @return array|string
+     * @return string
      */
     public function getDescription()
     {
-        return $this->ruleDescriptionExist() ? $this->makeDescription() : [];
+        return $this->ruleDescriptionExist() ? $this->makeDescription() : '';
     }
 
     /**
@@ -45,7 +47,7 @@ class RuleDescriptionParser
      */
     protected function ruleDescriptionExist()
     {
-        return trans()->hasForLocale($this->rule) || trans()->hasForLocale($this->rule, self::DEFAULT_LOCALE);
+        return Lang::has($this->rule);
     }
 
     /**
@@ -53,9 +55,7 @@ class RuleDescriptionParser
      */
     protected function makeDescription()
     {
-        $description = trans()->hasForLocale($this->rule) ?
-                            trans()->get($this->rule) :
-                            trans()->get($this->rule, [], self::DEFAULT_LOCALE);
+        $description = Lang::get($this->rule);
 
         return $this->replaceAttributes($description);
     }

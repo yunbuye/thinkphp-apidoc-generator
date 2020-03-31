@@ -60,10 +60,10 @@ $.ajax(settings).done(function (response) {
 @if(count($parsedRoute['parameters']))
 #### Parameters
 
-Parameter | Type | Status | Description
+参数 | 类型 | 是否必须 | 描述
 --------- | ------- | ------- | ------- | -----------
 @foreach($parsedRoute['parameters'] as $attribute => $parameter)
-    {{$attribute}} | {{$parameter['type']}} | @if($parameter['required']) required @else optional @endif | {!! implode(' ',$parameter['description']) !!}
+    {{$attribute}} | {{$parameter['type']}} | @if($parameter['require']) 必须 @else 可选 @endif | {!! implode(' ',$parameter['description']) !!}
 @endforeach
 @endif
 
